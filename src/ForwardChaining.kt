@@ -16,23 +16,47 @@ class ForwardChaining {
   }
 
   class Rule(val name: String, val sources: MutableList<String>, val destination: String) {
+    var used = false
+
     override fun toString(): String {
-      return name
+      return "$name: ${sources.toPrettyString()} -> $destination"
     }
   }
 
   private lateinit var target: String
 
-  private val appliedRules = mutableListOf<Rule>()
+  private val appliedRulesNames = mutableListOf<String>()
   private val rules = mutableListOf<Rule>()
   private val facts = mutableListOf<String>()
+  private var i = 0
 
   init {
+    println("1 PART. Data")
     parseInput()
 
-    println("Rules: $rules")
-    println("Facts: $facts")
-    println("Target: $target")
+    println("1) Rules")
+    rules.forEach {
+      println("  $it")
+    }
+
+    println("2) Facts")
+    println("  ${facts.toPrettyString()}")
+
+    println("3) Target")
+    println("  $target")
+
+    println("2 PART. Execution")
+    execute()
+
+    println("3 PART. Results")
+    if (!facts.contains(target)) {
+      println("  1) Target $target not derived.")
+    } else {
+      println("  1) Target $target derived.")
+      if (appliedRulesNames.isNotEmpty()) {
+        println("  2) Path: ${appliedRulesNames.toPrettyString()}.")
+      }
+    }
   }
 
   private fun parseInput() {
@@ -92,31 +116,39 @@ class ForwardChaining {
   }
 
   private fun execute() {
-    // Remove rules whose destination is an already known fact
-    rules.removeAll {
-      facts.contains(it.destination)
+    if (isFinished()) {
+      println("    Target reached.")
+      return
     }
 
-    while (true) {
-      // Make sure the target is not yet reached
-      if (facts.contains(target)) {
-        println("Finished. Found $target by applying rules: $appliedRules")
-        return
-      }
+    println()
+    println("  ${++i} ITERATION")
 
-      // Find a rule for which all sources are known as facts
-      val applicableRule = rules.firstOrNull {rule ->
-        facts.containsAll(rule.sources)
+    rules.forEach { rule ->
+      if (!facts.containsAll(rule.sources)) {
+        println("    $rule skipped. Lacks ${(rule.sources-facts).toPrettyString()}.")
+      } else if (rule.used) {
+        println("    $rule skipped. Already  used  (flag1).")
+      } else if (facts.contains(rule.destination)) {
+        println("    $rule skipped. Already a fact (flag2).")
+      } else {
+        rule.used = true
+        facts += rule.destination
+        appliedRulesNames += rule.name
+        println("    $rule used. Raise flag1. Facts are now ${facts.toPrettyString()}.")
+        return execute()
       }
-      if (applicableRule == null) {
-        println("No applicable rule was found. Terminating.")
-        return
-      }
-      // Apply rule
-      facts.add(applicableRule.destination)
-      rules -= applicableRule
-      appliedRules += applicableRule
     }
+
+    println("    No applicable rule was found. Terminating.")
   }
 
+  private fun isFinished(): Boolean {
+    return facts.contains(target)
+  }
+
+}
+
+private fun <T> List<T>.toPrettyString(): String {
+  return toString().removeSurrounding("[", "]")
 }
