@@ -23,6 +23,7 @@ class ForwardChaining {
 
   private lateinit var target: String
 
+  private val appliedRules = mutableListOf<Rule>()
   private val rules = mutableListOf<Rule>()
   private val facts = mutableListOf<String>()
 
@@ -88,6 +89,34 @@ class ForwardChaining {
 
     // Target
     target = lines[targetIndex+1]
+  }
+
+  private fun execute() {
+    // Remove rules whose destination is an already known fact
+    rules.removeAll {
+      facts.contains(it.destination)
+    }
+
+    while (true) {
+      // Make sure the target is not yet reached
+      if (facts.contains(target)) {
+        println("Finished. Found $target by applying rules: $appliedRules")
+        return
+      }
+
+      // Find a rule for which all sources are known as facts
+      val applicableRule = rules.firstOrNull {rule ->
+        facts.containsAll(rule.sources)
+      }
+      if (applicableRule == null) {
+        println("No applicable rule was found. Terminating.")
+        return
+      }
+      // Apply rule
+      facts.add(applicableRule.destination)
+      rules -= applicableRule
+      appliedRules += applicableRule
+    }
   }
 
 }
