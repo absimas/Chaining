@@ -58,9 +58,7 @@ class ForwardChaining {
       println("  1) Target $target not derived.")
     } else {
       println("  1) Target $target derived.")
-      if (appliedRulesNames.isNotEmpty()) {
-        println("  2) Path: ${appliedRulesNames.toPrettyString()}.")
-      }
+      println("  2) Path: ${appliedRulesNames.toPrettyString()}.")
     }
   }
 
