@@ -45,6 +45,11 @@ class ForwardChaining {
     println("3) Target")
     println("  $target")
 
+    if (facts.contains(target)) {
+      println("Target ($target) already in facts (${facts.toPrettyString()}).")
+      System.exit(0)
+    }
+
     println("2 PART. Execution")
     execute()
 
@@ -116,11 +121,6 @@ class ForwardChaining {
   }
 
   private fun execute() {
-    if (isFinished()) {
-      println("    Target reached.")
-      return
-    }
-
     println()
     println("  ${++i} ITERATION")
 
@@ -136,15 +136,17 @@ class ForwardChaining {
         facts += rule.destination
         appliedRulesNames += rule.name
         println("    $rule used. Raise flag1. Facts are now ${facts.toPrettyString()}.")
-        return execute()
+
+        if (facts.contains(target)) {
+          println("    Target reached.")
+          return
+        } else {
+          return execute()
+        }
       }
     }
 
     println("    No applicable rule was found. Terminating.")
-  }
-
-  private fun isFinished(): Boolean {
-    return facts.contains(target)
   }
 
 }
