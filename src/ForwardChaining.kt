@@ -28,6 +28,7 @@ class ForwardChaining {
   private val appliedRulesNames = mutableListOf<String>()
   private val rules = mutableListOf<Rule>()
   private val facts = mutableListOf<String>()
+  private var initialFactCount = 0
   private var i = 0
 
   init {
@@ -115,6 +116,7 @@ class ForwardChaining {
     // Facts
     val factLine = lines[factIndex+1]
     facts.addAll(factLine.split(' '))
+    initialFactCount = facts.size
 
     // Target
     target = lines[targetIndex+1]
@@ -135,7 +137,7 @@ class ForwardChaining {
         rule.used = true
         facts += rule.destination
         appliedRulesNames += rule.name
-        println("    $rule used. Raise flag1. Facts are now ${facts.toPrettyString()}.")
+        println("    $rule used. Raise flag1. Facts are now ${getFacts()}.")
 
         if (facts.contains(target)) {
           println("    Target reached.")
@@ -147,6 +149,10 @@ class ForwardChaining {
     }
 
     println("    No applicable rule was found. Terminating.")
+  }
+
+  private fun getFacts(): String {
+    return "${facts.subList(0, initialFactCount).toPrettyString()} and ${facts.subList(initialFactCount, facts.size).toPrettyString()}"
   }
 
 }
