@@ -123,23 +123,22 @@ class ForwardChaining {
     println("  ${++i} ITERATION")
 
     rules.forEach { rule ->
-      if (!facts.containsAll(rule.sources)) {
-        println("    $rule skipped. Lacks ${(rule.sources-facts).toPrettyString()}.")
-      } else if (rule.used) {
-        println("    $rule skipped. Already  used  (flag1).")
-      } else if (facts.contains(rule.destination)) {
-        println("    $rule skipped. Already a fact (flag2).")
-      } else {
-        rule.used = true
-        facts += rule.destination
-        appliedRulesNames += rule.name
-        println("    $rule used. Raise flag1. Facts are now ${getFacts()}.")
+      when {
+        !facts.containsAll(rule.sources) -> println("    $rule skipped. Lacks ${(rule.sources-facts).toPrettyString()}.")
+        rule.used -> println("    $rule skipped. Already  used  (flag1).")
+        facts.contains(rule.destination) -> println("    $rule skipped. Already a fact (flag2).")
+        else -> {
+          rule.used = true
+          facts += rule.destination
+          appliedRulesNames += rule.name
+          println("    $rule used. Raise flag1. Facts are now ${getFacts()}.")
 
-        if (facts.contains(target)) {
-          println("    Target reached.")
-          return
-        } else {
-          return execute()
+          if (facts.contains(target)) {
+            println("    Target reached.")
+            return
+          } else {
+            return execute()
+          }
         }
       }
     }
