@@ -29,7 +29,6 @@ class ForwardChaining {
   private val rules = mutableListOf<Rule>()
   private val facts = mutableListOf<String>()
   private var initialFactCount = 0
-  private var i = 0
 
   init {
     println("1 PART. Data")
@@ -52,7 +51,7 @@ class ForwardChaining {
     }
 
     println("2 PART. Execution")
-    execute()
+    execute(1)
 
     println("3 PART. Results")
     if (!facts.contains(target)) {
@@ -119,8 +118,8 @@ class ForwardChaining {
     target = lines[targetIndex+1]
   }
 
-  private fun execute() {
-    println("  ${++i} ITERATION")
+  private fun execute(iteration: Int) {
+    println("  $iteration ITERATION")
 
     rules.forEach { rule ->
       when {
@@ -137,7 +136,7 @@ class ForwardChaining {
             println("    Target reached.")
             return
           } else {
-            return execute()
+            return execute(iteration + 1)
           }
         }
       }
