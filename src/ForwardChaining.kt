@@ -89,14 +89,11 @@ class ForwardChaining {
     // Extract rules
     val ruleLines = lines.subList(ruleIndex+1, factIndex)
 
-    // Remove comments and trim
+    // Remove comments, trim and leave only non-empty lines
     val cleanRules = ruleLines.map {
       it.replace(Regex("//.*"), "").trim()
-    }.toMutableList()
-
-    // Remove empty lines
-    cleanRules.removeIf {
-      it.isEmpty()
+    }.filter {
+      it.isNotEmpty()
     }
 
     // Extract arguments into a Rule class
@@ -123,7 +120,6 @@ class ForwardChaining {
   }
 
   private fun execute() {
-    println()
     println("  ${++i} ITERATION")
 
     rules.forEach { rule ->
