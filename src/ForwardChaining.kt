@@ -84,7 +84,6 @@ class ForwardChaining {
     val targetIndex = lines.indexOfFirst { it.startsWith(TARGET_PREFIX) }
     if (targetIndex == -1) throw IllegalStateException("Target wasn't not found in the input file!")
 
-    // Rules
     // Extract rules
     val ruleLines = lines.subList(ruleIndex+1, factIndex)
 
@@ -102,16 +101,12 @@ class ForwardChaining {
         throw IllegalStateException("Incorrect rule arguments found! Line was $rule.")
       }
 
-      val name = "R${rules.size+1}"
-      val sources = split.subList(1, split.size)
-      val destination = split[0]
-
-      rules.add(Rule(name, sources.toMutableList(), destination))
+      val sources = split.subList(1, split.size).toMutableList()
+      rules.add(Rule("R${rules.size+1}", sources, split[0]))
     }
 
     // Facts
-    val factLine = lines[factIndex+1]
-    facts.addAll(factLine.split(' '))
+    facts.addAll(lines[factIndex+1].split(' '))
     initialFactCount = facts.size
 
     // Target
