@@ -61,19 +61,19 @@ class ForwardChaining(val input: File) {
     println("  $target")
 
     if (facts.contains(target)) {
-      println("Target ($target) already in facts (${facts.toPrettyString()}).")
-      System.exit(0)
-    }
-
-    println("2 PART. Execution")
-    execute(1)
-
-    println("3 PART. Results")
-    if (!facts.contains(target)) {
-      println("  1) Target $target not derived.")
+      println("3 PART. Results")
+      println("Target ($target) already in facts (${facts.toPrettyString()}). Path is empty.")
     } else {
-      println("  1) Target $target derived.")
-      println("  2) Path: ${appliedRulesNames.toPrettyString()}.")
+      println("2 PART. Execution")
+      execute(1)
+
+      println("3 PART. Results")
+      if (!facts.contains(target)) {
+        println("  1) Target $target not derived.")
+      } else {
+        println("  1) Target $target derived.")
+        println("  2) Path: ${appliedRulesNames.toPrettyString()}.")
+      }
     }
   }
 
