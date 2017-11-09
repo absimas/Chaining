@@ -4,8 +4,8 @@ L A		// R1: A -> L
 K L		// R2: L -> K
 A D		// R3: D -> AM
 M D		// R4: D -> M
-Z F B	// R5: F, B -> Z
-F C D	// R6: C, D -> F
+Z F B		// R5: F, B -> Z
+F C D		// R6: C, D -> F
 D A		// R7: A -> D
 
 2) Facts

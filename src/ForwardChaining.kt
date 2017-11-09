@@ -6,12 +6,27 @@ import java.io.File
 private const val RULE_PREFIX = "1) Rules"
 private const val FACT_PREFIX = "2) Facts"
 private const val TARGET_PREFIX = "3) Target"
-class ForwardChaining {
+private const val INPUT_FILENAME_PREFIX = "fc"
+class ForwardChaining(val input: File) {
 
   companion object {
     @JvmStatic
     fun main(args: Array<String>) {
-      ForwardChaining()
+
+      val projectRoot = File(".")
+      if (!projectRoot.exists()) {
+        throw IllegalStateException("Root doesn't exist!")
+      }
+
+      // Filter (fc*), sort (ascending names) and execute input files
+      projectRoot.listFiles { _, name ->
+        name.startsWith(INPUT_FILENAME_PREFIX)
+      }.sortedBy {
+        it.name
+      }.forEach {
+        println("WORK WITH $it")
+        ForwardChaining(it)
+      }
     }
   }
 
@@ -63,11 +78,6 @@ class ForwardChaining {
   }
 
   private fun parseInput() {
-    val input = File("input")
-    if (!input.exists()) {
-      throw IllegalStateException("Input file must exist!")
-    }
-
     val lines = input.readLines()
     val lineCount = lines.size
     if (lineCount <= 1) {
