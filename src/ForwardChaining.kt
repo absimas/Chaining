@@ -40,7 +40,7 @@ class ForwardChaining(val input: File) {
 
   private lateinit var target: String
 
-  private val appliedRulesNames = mutableListOf<String>()
+  private val appliedRuleNames = mutableListOf<String>()
   private val rules = mutableListOf<Rule>()
   private val facts = mutableListOf<String>()
   private var initialFactCount = 0
@@ -72,7 +72,7 @@ class ForwardChaining(val input: File) {
         println("  1) Target $target not derived.")
       } else {
         println("  1) Target $target derived.")
-        println("  2) Path: ${appliedRulesNames.toPrettyString()}.")
+        println("  2) Path: ${appliedRuleNames.toPrettyString()}.")
       }
     }
   }
@@ -132,7 +132,7 @@ class ForwardChaining(val input: File) {
         else -> {
           rule.used = true
           facts += rule.destination
-          appliedRulesNames += rule.name
+          appliedRuleNames += rule.name
           println("    $rule used. Raise flag1. Facts are now ${getFacts()}.")
 
           if (facts.contains(target)) {
