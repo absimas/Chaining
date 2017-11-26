@@ -1,0 +1,11 @@
+7 test.
+1) Rules
+Z A		// R1 : A -> Z
+Z B		// R2 : B -> Z
+Z C		// R3 : C -> Z
+
+2) Facts
+C
+
+3) Target
+Z

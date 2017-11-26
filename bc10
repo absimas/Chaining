@@ -1,0 +1,13 @@
+10 test.
+1) Rules
+Z Y D			// R1: Y D -> Z
+Y X B E		// R2: X B E -> Y
+X A			// R3: A -> X
+L C			// R4: C -> L
+N L M			// R5: L M -> N
+
+2) Facts
+A B C D E
+
+3) Target
+Z

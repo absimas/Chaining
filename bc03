@@ -1,0 +1,17 @@
+3 test.
+1) Rules
+Z C D		// R1 : C, D -> Z
+D C		// R2 : C -> D
+C B		// R3 : B -> C
+B A		// R4 : A -> B
+A D		// R5 : D -> A
+D T		// R6 : T -> D
+A G		// R7 : G -> A
+B H		// R8 : H -> B
+C J		// R9 : J -> C
+
+2) Facts
+T
+
+3) Target
+Z

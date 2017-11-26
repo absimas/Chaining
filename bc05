@@ -1,0 +1,16 @@
+5 test.
+1) Rules
+G E		// R1 : E -> G
+B F		// R2 : F -> B
+Z G		// R3 : G -> Z
+G A		// R4 : A -> G
+B A		// R5 : A -> B
+C B		// R6 : B -> C
+D C		// R7 : C -> D
+D Z		// R8 : D -> Z
+
+2) Facts
+A
+
+3) Target
+Z
