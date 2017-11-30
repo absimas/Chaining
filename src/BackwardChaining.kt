@@ -126,8 +126,8 @@ class BackwardChaining(val input: File) {
     val lastTarget = targets.last()
     val depth = targets.size - 1
 
-    if (facts.contains(targets.last())) {
-      if (facts.indexOf(targets.last()) < initialFactCount) {
+    if (facts.contains(lastTarget)) {
+      if (facts.indexOf(lastTarget) < initialFactCount) {
         println(String.format("%3d) %sTarget %s. Fact is given. Facts %s. Success.", ++iteration, "-".repeat(depth), lastTarget, getFacts()))
       } else {
         println(String.format("%3d) %sTarget %s. Fact was given. Facts %s. Success.", ++iteration, "-".repeat(depth), lastTarget, getFacts()))
@@ -136,7 +136,7 @@ class BackwardChaining(val input: File) {
     }
 
     val rules = rules.filter {
-      !it.used && it.destination == targets.last()
+      !it.used && it.destination == lastTarget
     }
     if (rules.isEmpty()) {
       println(String.format("%3d) %sTarget %s. Deriving rule not found! FAIL.", ++iteration, "-".repeat(depth), lastTarget))
